@@ -43,17 +43,21 @@ import java.util.Optional;
 public class StockService {
     @Autowired
     private StockRepository stockRepository;
+
     @Autowired
     private StockHisDividendRepository stockHisDividendRepository;
+
     @Autowired
     private StockYearReportService stockYearReportService;
+
     @Autowired
     private StockSpider spider;
+
     @Autowired
     private MongoTemplate template;
+
     @Autowired
     private JisiluSpilder jisiluSpilder;
-
 
     /**
      * 查询股票
@@ -133,7 +137,6 @@ public class StockService {
         return data.toJSONString();
     }
 
-
     /**
      * 得到股票历史分红信息
      *
@@ -149,7 +152,6 @@ public class StockService {
         List<StockDividend> list = template.find(query, StockDividend.class);
         return list;
     }
-
 
     /**
      * 得到股票历史roe
@@ -167,7 +169,6 @@ public class StockService {
         return list;
     }
 
-
     /**
      * 抓取历史数据
      *
@@ -176,7 +177,6 @@ public class StockService {
      * @throws Exception
      */
     public List<String> crawAndSaveHisPbPe(String code) throws Exception {
-
         StringBuilder price = new StringBuilder();
         StringBuilder pe = new StringBuilder();
         StringBuilder pb = new StringBuilder();
@@ -214,7 +214,6 @@ public class StockService {
                 list.clear();
             }
         }*/
-
 
         JSONArray reportJsons = data.getJSONArray("reports");
         list = new ArrayList<>();
@@ -333,5 +332,4 @@ public class StockService {
         }
         return list;
     }
-
 }

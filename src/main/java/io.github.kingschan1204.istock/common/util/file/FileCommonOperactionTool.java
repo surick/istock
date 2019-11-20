@@ -19,7 +19,6 @@ import java.util.Enumeration;
  * @create 2018-01-24 12:38
  **/
 public class FileCommonOperactionTool {
-
     private static Logger log = LoggerFactory.getLogger(FileCommonOperactionTool.class);
 
     /**

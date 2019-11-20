@@ -28,8 +28,10 @@ import java.util.List;
 public class StockPriceServices {
     @Autowired
     private TradingDateUtil tradingDateUtil;
+
     @Autowired
     private TushareApi tushareApi;
+
     @Autowired
     private MongoTemplate template;
 

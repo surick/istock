@@ -21,5 +21,4 @@ public class StockHisDividend {
     private String executeDate;
     private String remark;
     private Double percent;
-
 }

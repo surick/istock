@@ -101,6 +101,4 @@ public class DailyBasicSpider implements Runnable {
                 new Update().set("dailyDate", Integer.valueOf(TradingDateUtil.getDateYYYYMMdd())), "stock_code_info");
         log.info("insert: {},update: {} delete: {}", bulkWriteResult.getInsertedCount(), updateResult2.getModifiedCount(), deleteResult.getDeletedCount());
     }
-
-
 }

@@ -23,5 +23,4 @@ public class CsIndexIndustry {
     private String lvfour;
     private String hs300index;
     private Integer date;
-
 }

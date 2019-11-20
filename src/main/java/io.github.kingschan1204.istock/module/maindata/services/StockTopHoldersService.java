@@ -23,6 +23,7 @@ import java.util.List;
 public class StockTopHoldersService {
     @Autowired
     private MongoTemplate mongoTemplate;
+
     @Autowired
     private TushareApi tushareSpider;
 
@@ -31,7 +32,7 @@ public class StockTopHoldersService {
      * @param code
      */
     public void refreshTopHolders(String code){
-        List<StockTopHolders> list = new ArrayList<StockTopHolders>();
+        List<StockTopHolders> list = new ArrayList<>();
         JSONArray rows =tushareSpider.getStockTopHolders(code);
         String frist=null;
         for (int i = 0; i < rows.size(); i++) {
@@ -50,5 +51,4 @@ public class StockTopHoldersService {
         mongoTemplate.insertAll(list);
         log.info("top10 holders :remove {} ,insert {} ",dr.getDeletedCount(),list.size());
     }
-
 }

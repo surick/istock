@@ -98,9 +98,5 @@ public class StockInfoService {
         JSONArray jsonHolders=JSONArray.parseArray(JSON.toJSONString(holders));
         data.put("holders",jsonHolders);
         return data;
-
     }
-
-
-
 }

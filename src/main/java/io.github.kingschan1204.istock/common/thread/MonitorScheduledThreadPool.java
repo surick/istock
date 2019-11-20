@@ -11,8 +11,6 @@ import java.util.concurrent.*;
  **/
 @Slf4j
 public class MonitorScheduledThreadPool extends ScheduledThreadPoolExecutor {
-
-
     public MonitorScheduledThreadPool(int corePoolSize) {
         super(corePoolSize);
     }

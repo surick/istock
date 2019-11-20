@@ -158,7 +158,4 @@ public class MyMongoTemplate {
         UpdateResult updateResult = mongoTemplate.updateFirst(query, update, collection);
         return updateResult.getModifiedCount()>0;
     }
-
-
-
 }

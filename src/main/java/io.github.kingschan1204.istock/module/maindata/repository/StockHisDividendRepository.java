@@ -11,8 +11,5 @@ import org.springframework.stereotype.Repository;
  * @create 2018-02-01 15:46
  **/
 @Repository
-public interface StockHisDividendRepository extends PagingAndSortingRepository<StockDividend,String> {
-
-
-
+public interface StockHisDividendRepository extends PagingAndSortingRepository<StockDividend, String> {
 }

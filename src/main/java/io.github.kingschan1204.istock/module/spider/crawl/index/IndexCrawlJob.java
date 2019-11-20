@@ -22,7 +22,6 @@ import java.util.concurrent.*;
  **/
 @Slf4j
 public class IndexCrawlJob implements Runnable {
-
     private ScheduledExecutorService scheduledExecutorService;
     private ScheduledExecutorService scheduledExecutorService2;
     ConcurrentLinkedQueue<Stock> stockQueue = new ConcurrentLinkedQueue<>();
@@ -122,6 +121,5 @@ public class IndexCrawlJob implements Runnable {
 
             }
         }, 0, 2, TimeUnit.SECONDS);
-
     }
 }

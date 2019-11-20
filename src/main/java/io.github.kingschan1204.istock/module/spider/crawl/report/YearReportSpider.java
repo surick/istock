@@ -25,7 +25,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  **/
 @Slf4j
 public class YearReportSpider implements Runnable {
-
     private AtomicInteger error;
     public YearReportSpider(AtomicInteger error){
         this.error=error;

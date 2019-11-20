@@ -6,7 +6,6 @@ package io.github.kingschan1204.istock.common.exception;
  * @create 2018-11-13 16:20
  **/
 public class CrawlException extends RuntimeException {
-
     public CrawlException(){
         super();
     }
@@ -15,7 +14,7 @@ public class CrawlException extends RuntimeException {
         super(message);
     }
 
-    public CrawlException(String message,Throwable e){
+    public CrawlException(String message, Throwable e){
         super(message,e);
     }
 }

@@ -17,7 +17,6 @@ import java.util.concurrent.Callable;
  **/
 @Slf4j
 public class CsindexIndustrySpider implements Callable<List<CsIndexIndustry>> {
-
     private static String url ="http://www.csindex.com.cn/uploads/downloads/other/files/zh_CN/ZzhyflWz.zip";
     private static String referrer ="http://www.csindex.com.cn/zh-CN/downloads/industry-class";
     private static String download_folder ="./download/";
@@ -49,6 +48,4 @@ public class CsindexIndustrySpider implements Callable<List<CsIndexIndustry>> {
         }
         return data;
     }
-
-
 }

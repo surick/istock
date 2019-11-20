@@ -15,7 +15,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 @Document(collection = "stock_code_info")
 public class StockCodeInfo {
-
     //股票代码
     @Id
     private String code;
@@ -80,7 +79,5 @@ public class StockCodeInfo {
         this.holdersDate=0;
         this.yearReportDate=0;
         this.xlsError=0;
-
     }
-
 }

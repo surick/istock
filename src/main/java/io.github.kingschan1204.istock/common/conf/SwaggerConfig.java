@@ -20,13 +20,11 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
-
     @Value("${info.version}")
     private String version;
 
     @Autowired
     Environment env;
-
 
     @Bean
     public Docket openApi() {
@@ -42,9 +40,6 @@ public class SwaggerConfig {
             .build();
     }
 
-
-
-
     private ApiInfo openApiInfo() {
         return createApiInfo("istock在线接口文档(开放文档)", "简单优雅的restfun风格");
     }
@@ -59,6 +54,4 @@ public class SwaggerConfig {
 //            .termsOfServiceUrl("/admin/swagger-ui.html")
             .build();
     }
-
-
 }

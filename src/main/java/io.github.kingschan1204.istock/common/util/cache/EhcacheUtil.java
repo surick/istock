@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class EhcacheUtil {
-
     @Autowired
     EhCacheCacheManager ehCacheCacheManager;
 
@@ -25,12 +24,10 @@ public class EhcacheUtil {
      * @param key
      * @return
      */
-    public Object getKey(String cacheName,String key){
-        Element em =ehCacheCacheManager.getCacheManager().getCache(cacheName).get(key);
-        return null==em?null:em.getObjectValue();
+    public Object getKey(String cacheName, String key) {
+        Element em = ehCacheCacheManager.getCacheManager().getCache(cacheName).get(key);
+        return null == em ? null : em.getObjectValue();
     }
-
-
 
     /**
      * 查询指定缓存是否包含key
@@ -38,7 +35,7 @@ public class EhcacheUtil {
      * @param key
      * @return
      */
-    public boolean contrainKey(String cacheName,String key){
+    public boolean contrainKey(String cacheName, String key) {
         Cache cache= ehCacheCacheManager.getCacheManager().getCache(cacheName);
         return cache.isKeyInCache(key);
     }
@@ -49,9 +46,9 @@ public class EhcacheUtil {
      * @param key
      * @param value
      */
-    public void addKey(String cacheName,String key,Object value){
-        ehCacheCacheManager.getCacheManager().getCache(cacheName).put(new Element(key,value));
-        log.info("缓存{}新增{}值{}",cacheName,key,value);
+    public void addKey(String cacheName, String key, Object value) {
+        ehCacheCacheManager.getCacheManager().getCache(cacheName).put(new Element(key, value));
+        log.info("缓存{}新增{}值{}", cacheName, key, value);
     }
 
     /**
@@ -59,12 +56,8 @@ public class EhcacheUtil {
      * @param cacheName
      * @return
      */
-    public int getCacheTotalKeys(String cacheName){
-        Cache cache=ehCacheCacheManager.getCacheManager().getCache(cacheName);
-        return null==cache?0:cache.getKeys().size();
+    public int getCacheTotalKeys(String cacheName) {
+        Cache cache = ehCacheCacheManager.getCacheManager().getCache(cacheName);
+        return null == cache ? 0 : cache.getKeys().size();
     }
-
-
-
-
 }

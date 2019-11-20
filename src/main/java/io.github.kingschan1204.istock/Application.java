@@ -27,7 +27,6 @@ import java.util.List;
 @ServletComponentScan
 @SpringBootApplication
 public class Application {
-
     @Autowired
     private StockService stockService;
 

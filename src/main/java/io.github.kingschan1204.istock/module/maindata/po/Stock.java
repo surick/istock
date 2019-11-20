@@ -12,7 +12,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 @Document(collection = "stock")
 public class Stock {
-
     @Id
     private String code;
     private String type;
@@ -95,5 +94,4 @@ public class Stock {
      * 股票分类
      */
     private String stype;
-
 }

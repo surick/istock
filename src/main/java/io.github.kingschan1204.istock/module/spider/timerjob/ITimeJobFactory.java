@@ -30,10 +30,6 @@ public class ITimeJobFactory {
         map.put(TIMEJOB.YEAR_REPORT,new YearReportTimerJobImpl());
         map.put(TIMEJOB.DIVIDEND,new DividendTimerJobImpl());
         map.put(TIMEJOB.DYROE,new DyRoeAnalysisJobImpl());
-
-
-
-
     }
 
     /**

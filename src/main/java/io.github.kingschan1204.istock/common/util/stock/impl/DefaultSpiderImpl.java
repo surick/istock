@@ -39,8 +39,6 @@ public class DefaultSpiderImpl implements StockSpider {
     @Value("${xueqiu.token}")
     protected String xueQiuToken;
 
-
-
     @Override
     public JSONArray getHistoryDividendRate(String code) throws Exception {
         String stockCode = code.replaceAll("\\D", "");
@@ -202,6 +200,4 @@ public class DefaultSpiderImpl implements StockSpider {
         }
         return codes;
     }
-
-
 }

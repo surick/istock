@@ -31,15 +31,20 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @RestController
 public class StockCtrl {
-
     @Autowired
     private StockService service;
+
     @Autowired
     private StockCodeInfoService stockCodeInfoService;
+
     @Autowired
     private StockCompanyService stockCompanyService;
+
     @Autowired
     private StockSpider spider;
+
+    @Autowired
+    private MyMongoTemplate myMongoTemplate;
 
     @ApiOperation(value = "获取代码列表", notes = "根据传入参数返回列表信息")
     @ApiImplicitParams({
@@ -59,7 +64,6 @@ public class StockCtrl {
         String field = (null == sidx || sidx.isEmpty()) ? "_id" : sidx;
         return service.queryStock(page, rows, code, type, pb, dy,industry, field, order);
     }
-
 
     @ApiOperation(value = "刷新代码", notes = "初始化所有代码")
     @ResponseBody
@@ -102,9 +106,6 @@ public class StockCtrl {
         service.calculateFiveYearsRoe(start,end,key);
         return String.format("success:%s - %s - %s", start, end,key);
     }
-
-    @Autowired
-    private MyMongoTemplate myMongoTemplate;
 
     @GetMapping(value = "/csindex")
     public String crawCsindex()throws Exception{

@@ -8,8 +8,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @create 2019-03-07 11:13
  **/
 public class MyThreadFactory implements ThreadFactory {
-
     private AtomicInteger counter = new AtomicInteger(0);
+
     private String name;
 
     public MyThreadFactory(String name) {

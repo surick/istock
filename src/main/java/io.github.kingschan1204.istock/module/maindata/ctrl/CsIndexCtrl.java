@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * ${DESCRIPTION}
  *
  * @author chenguoxiang
  * @create 2019-10-10 16:19
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/csindex")
 @Controller
 public class CsIndexCtrl {
-
     @Autowired
     private MyMongoTemplate mongoTemplate;
 

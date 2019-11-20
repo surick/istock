@@ -20,11 +20,12 @@ import java.util.List;
  **/
 @Service
 public class StockYearReportService {
-
     @Autowired
     private StockSpider spider;
+
     @Autowired
     private StockYearReportRepository repository;
+
     @Autowired
     private MongoTemplate template;
 

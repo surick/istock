@@ -9,12 +9,8 @@ import org.springframework.core.Ordered;
  * @create 2018-07-13 15:12
  **/
 public class InitQuartzTaskRunner implements ApplicationRunner, Ordered {
-
-
     @Override
     public void run(ApplicationArguments applicationArguments) throws Exception {
-
-
     }
 
     @Override

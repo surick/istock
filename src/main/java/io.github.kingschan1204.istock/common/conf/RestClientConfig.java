@@ -43,6 +43,7 @@ public class RestClientConfig {
         restTemplate.setErrorHandler(new DefaultResponseErrorHandler());
         return restTemplate;
     }
+
     @Bean
     public HttpComponentsClientHttpRequestFactory clientHttpRequestFactory() {
         try {
@@ -71,7 +72,7 @@ public class RestClientConfig {
             clientHttpRequestFactory.setConnectionRequestTimeout(20000);    // 连接不够用的等待时间
             return clientHttpRequestFactory;
         } catch (KeyManagementException | NoSuchAlgorithmException | KeyStoreException e) {
-            log.error("初始化HTTP连接池出错{}", e);
+            log.error("初始化HTTP连接池出错{ }", e);
         }
         return null;
     }

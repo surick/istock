@@ -19,17 +19,17 @@ import java.util.List;
 @Slf4j
 @Service
 public class StockCompanyService {
+    @Autowired
+    private TushareApi tushareSpider;
 
-        @Autowired
-        private TushareApi tushareSpider;
-        @Autowired
-        private MongoTemplate mongoTemplate;
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
     /**
      * 代码列表刷新
      */
     public void refreshStockCompany(){
-        List<StockCompany> list = new ArrayList<StockCompany>();
+        List<StockCompany> list = new ArrayList<>();
         JSONArray rows_sh =tushareSpider.getStockShCompany();
         JSONArray rows_sz =tushareSpider.getStockSZCompany();
         for (int i = 0; i < rows_sh.size(); i++) {

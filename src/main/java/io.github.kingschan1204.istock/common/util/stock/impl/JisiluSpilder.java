@@ -100,5 +100,4 @@ public class JisiluSpilder extends DefaultSpiderImpl {
         }
         return result;
     }
-
 }

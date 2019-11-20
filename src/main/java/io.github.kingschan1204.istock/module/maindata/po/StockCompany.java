@@ -15,7 +15,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 @Document(collection = "stock_company")
 public class StockCompany {
-
     @Id
     private String code;
     private String chairman;
@@ -51,6 +50,5 @@ public class StockCompany {
         if (null!=json.get(14)){
             this.businessScope=json.getString(14).replaceFirst("^主.*\\:","");
         }
-
     }
 }

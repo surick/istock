@@ -23,15 +23,15 @@ import java.util.List;
 public class StockCodeInfoService {
     @Autowired
     private MongoTemplate mongoTemplate;
+
     @Autowired
     private TushareApi tushareSpider;
-
 
     /**
      * 代码列表刷新
      */
     public void refreshCode(){
-        List<StockCodeInfo> list = new ArrayList<StockCodeInfo>();
+        List<StockCodeInfo> list = new ArrayList<>();
         JSONArray rows =tushareSpider.getStockCodeList();
         for (int i = 0; i < rows.size(); i++) {
             list.add(new StockCodeInfo(rows.getJSONArray(i)));

@@ -9,8 +9,6 @@ import javax.servlet.annotation.WebListener;
 @Slf4j
 @WebListener
 public class JobContextListener implements ServletContextListener {
-
-
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         log.info("JobContextListener contextInitialized");

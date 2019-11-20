@@ -37,6 +37,7 @@ public class HttpsUtils {
             throw new AssertionError(e);
         }
     }
+
     public static SSLSocketFactory getSslSocketFactory(){
         SSLContext sslContext=null;
         try {
@@ -91,7 +92,6 @@ public class HttpsUtils {
             e.printStackTrace();
         }
         return null;
-
     }
 
     private static KeyManager[] prepareKeyManager(InputStream bksFile, String password) {
@@ -162,7 +162,6 @@ public class HttpsUtils {
             this.localTrustManager = localTrustManager;
         }
 
-
         @Override
         public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
 
@@ -176,7 +175,6 @@ public class HttpsUtils {
                 localTrustManager.checkServerTrusted(chain, authType);
             }
         }
-
 
         @Override
         public X509Certificate[] getAcceptedIssuers() {

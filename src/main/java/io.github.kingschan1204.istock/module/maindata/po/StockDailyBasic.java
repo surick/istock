@@ -14,7 +14,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class StockDailyBasic {
     @Id
     private String id;
-
     private String code;
     private Integer tradeDate;
     /**

@@ -21,7 +21,6 @@ import java.util.concurrent.Callable;
 @Slf4j
 @AllArgsConstructor
 public class ThsDividendSpider implements Callable<JSONArray>{
-
     private String code;
     private String useAgent;
     private Integer timeOut;

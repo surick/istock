@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class SpringMailSender {
-
     @Autowired
     private JavaMailSender mailSender;
+
     @Value("${spring.mail.username}")
     private String from;
 
@@ -30,5 +30,4 @@ public class SpringMailSender {
         message.setFrom(from);//发信人
         mailSender.send(message);
     }
-
 }

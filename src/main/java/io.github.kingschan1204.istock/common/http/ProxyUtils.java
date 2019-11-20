@@ -20,6 +20,7 @@ public final class ProxyUtils {
 
     public static boolean validateIp(String ip, int port, ProxyType proxyType) {
         boolean available = false;
+
         if (proxyType.getType().equalsIgnoreCase("http")) {
             available = validateHttp(ip, port);
         } else if (proxyType.getType().equalsIgnoreCase("https")) {

@@ -24,15 +24,15 @@ public class ExcelOperactionTool {
      * @return
      * @throws Exception
      */
-    public static List<Object[]> readExcelData(String url)throws Exception{
+    public static List<Object[]> readExcelData(String url) throws Exception {
 
         // 从XLSX/ xls文件创建的输入流
         FileInputStream fis = new FileInputStream(url);
-        List<Object[]> hospitalList = new ArrayList<Object[]>();
+        List<Object[]> hospitalList = new ArrayList<>();
         // 创建工作薄Workbook
         Workbook workBook = null;
         // 读取2007版以.xlsx 结尾
-        if(url.toLowerCase().endsWith("xlsx")){
+        if (url.toLowerCase().endsWith("xlsx")) {
             try {
                 workBook = new XSSFWorkbook(fis);
             } catch (IOException e) {

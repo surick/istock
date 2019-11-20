@@ -18,5 +18,4 @@ public class Page<T> {
     private Integer pageIndex;
     private Integer pageSize;
     private List<T> data;
-
 }

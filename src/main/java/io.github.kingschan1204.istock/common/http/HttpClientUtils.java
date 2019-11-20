@@ -64,7 +64,9 @@ public class HttpClientUtils {
         standardHandler = new StandardHttpRequestRetryHandler(3, true);
     }
 
-    public static String send(final String url, String content, Map<String, String> headerMap,Map<String, String> formParamMap, String contentCharset, String resultCharset, HttpMethod method) {
+    public static String send(final String url, String content, Map<String, String> headerMap,
+                              Map<String, String> formParamMap, String contentCharset, String resultCharset, HttpMethod method) {
+
         if (StringUtils.isEmpty(contentCharset)) {
             contentCharset = DEFAULT_CHARSET;
         }
@@ -263,5 +265,4 @@ public class HttpClientUtils {
     public static String sendPatch(final String url, String content, Map<String, String> headerMap, String contentCharset, String resultCharset) {
         return send(url, content, headerMap, null,contentCharset, resultCharset, HttpMethod.PATCH);
     }
-
 }

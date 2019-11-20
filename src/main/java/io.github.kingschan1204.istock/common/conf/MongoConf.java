@@ -23,6 +23,7 @@ public class MongoConf {
     public MappingMongoConverter mappingMongoConverter(MongoDbFactory factory, MongoMappingContext context, BeanFactory beanFactory) {
         DbRefResolver dbRefResolver = new DefaultDbRefResolver(factory);
         MappingMongoConverter mappingConverter = new MappingMongoConverter(dbRefResolver, context);
+
         try {
             mappingConverter.setCustomConversions(beanFactory.getBean(CustomConversions.class));
         } catch (NoSuchBeanDefinitionException ignore) {

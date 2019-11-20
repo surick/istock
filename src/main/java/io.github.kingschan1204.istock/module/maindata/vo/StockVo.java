@@ -13,7 +13,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class StockVo {
-
     private String code;
     private String type;
     private String name;
@@ -83,38 +82,29 @@ public class StockVo {
      */
     private String mll;
 
-
-
-
     public void setFluctuate(Double fluctuate) {
         this.fluctuate = String.format("%s%%", fluctuate);
     }
-
 
     public void setTotalValue(Double totalValue) {
         this.totalValue = null == totalValue ? "--" : String.format("%s 亿", totalValue);
     }
 
-
     public void setPb(Double pb) {
         this.pb = null == pb ? "--" : String.format("%s", pb);
     }
-
 
     public void setRoe(Double roe) {
         this.roe = null == roe ? "--" : String.format("%s%%", roe);
     }
 
-
     public void setBvps(Double bvps) {
         this.bvps = null == bvps ? "--" : String.format("%s", bvps);
     }
 
-
     public void setPes(Double pes) {
         this.pes = null == pes||-1==pes ? "--" : String.format("%s", pes);
     }
-
 
     public void setPed(Double ped) {
         this.ped = null == ped||-1==ped ? "--" : String.format("%s", ped);
@@ -128,28 +118,23 @@ public class StockVo {
         this.dividend = null == dividend ? "--" : String.format("%s%%", dividend);
     }
 
-
     public void setDy(Double dy) {
         this.dy = (null == dy||dy<=0) ? "--" : String.format("%s%%", dy);
     }
-
 
     public void setFiveYearDy(Double fiveYearDy) {
         this.fiveYearDy = null == fiveYearDy ? "--" : String.format("%s%%", fiveYearDy);
     }
 
-
     public void setFiveYearRoe(Double fiveYearRoe) {
         this.fiveYearRoe = null == fiveYearRoe ? "--" : String.format("%s%%", fiveYearRoe);
     }
-
 
     public void setTotalIncome(Double totalIncome) {
         if (null != totalIncome) {
             this.totalIncome = totalIncome + " 亿";
         }
     }
-
 
     public void setIncomeDiff(Double incomeDiff) {
         if (null != incomeDiff) {
@@ -158,13 +143,11 @@ public class StockVo {
 
     }
 
-
     public void setTotalProfits(Double totalProfits) {
         if (null != totalProfits) {
             this.totalProfits = totalProfits + " 亿";
         }
     }
-
 
     public void setProfitsDiff(Double profitsDiff) {
         if (null != profitsDiff) {
@@ -179,7 +162,6 @@ public class StockVo {
     public void setThreeYearRoe(Double threeYearRoe) {
         this.threeYearRoe = threeYearRoe==null?"--":threeYearRoe+"%";
     }
-
 
     public void setMll(Double mll) {
         this.mll = mll+"%";

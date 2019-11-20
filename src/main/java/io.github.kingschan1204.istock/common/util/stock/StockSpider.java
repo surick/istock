@@ -84,11 +84,12 @@ public interface StockSpider {
      * @throws IOException
      */
     static boolean isWorkDay(Integer date) throws IOException {
-        String api =String.format("http://api.goseek.cn/Tools/holiday?date=%s",date);
+        String api = String.format("http://api.goseek.cn/Tools/holiday?date=%s", date);
         String result = Jsoup.connect(api).timeout(3000).ignoreContentType(true).get().text();
         //{"code":10001,"data":2}  工作日对应结果为 0, 休息日对应结果为 1, 节假日对应的结果为 2
         JSONObject json = JSON.parseObject(result);
-        return json.getIntValue("data")==0;
+
+        return json.getIntValue("data") == 0;
     }
 
 

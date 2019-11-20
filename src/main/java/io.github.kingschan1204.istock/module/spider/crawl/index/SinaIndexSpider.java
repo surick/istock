@@ -21,7 +21,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  **/
 @Slf4j
 public class SinaIndexSpider extends AbstractHtmlSpider<Stock> {
-
     public SinaIndexSpider(String[] stockCode, ConcurrentLinkedQueue<Stock> queue){
         StringBuilder queryStr = new StringBuilder();
         for (String code : stockCode) {

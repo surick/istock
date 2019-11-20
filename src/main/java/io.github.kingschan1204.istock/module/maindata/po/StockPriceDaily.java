@@ -51,5 +51,4 @@ public class StockPriceDaily {
      * 成交额 （千元）
      */
     private Double amount;
-
 }

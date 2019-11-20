@@ -44,6 +44,4 @@ public class XueQiuInfoSpider implements Callable<JSONObject> {
         JSONObject json = JSON.parseObject(webPage.getDocument().text());
         return json;
     }
-
-
 }

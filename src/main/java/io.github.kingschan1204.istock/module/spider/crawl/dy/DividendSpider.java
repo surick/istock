@@ -27,7 +27,6 @@ import java.util.concurrent.TimeUnit;
  **/
 @Slf4j
 public class DividendSpider implements Runnable {
-
     MongoTemplate getTemplate() {
         return SpringContextUtil.getBean(MongoTemplate.class);
     }

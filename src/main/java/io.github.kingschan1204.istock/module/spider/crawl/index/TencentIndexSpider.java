@@ -20,7 +20,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  **/
 @Slf4j
 public class TencentIndexSpider extends AbstractHtmlSpider<Stock> {
-
     public TencentIndexSpider(String[] stockCode, ConcurrentLinkedQueue<Stock> queue) {
         StringBuilder queryStr = new StringBuilder();
         for (String code : stockCode) {
@@ -40,7 +39,6 @@ public class TencentIndexSpider extends AbstractHtmlSpider<Stock> {
 
     @Override
     public void parsePage(WebPage webPage) throws Exception {
-
         String content = webPage.getDocument().text();
         List<String> rows = Arrays.asList(content.split(";"));
         for (int i = 0; i < rows.size(); i++) {
