@@ -131,6 +131,11 @@ public class TushareApi {
         json.put("fields", "ts_code,ann_date,end_date,holder_name,hold_amount,hold_ratio");
         String result = post(json);
         JSONObject datas = JSON.parseObject(result);
+
+        if (datas.getJSONObject("data") == null) {
+            log.error("无权限访问接口{ }", datas);
+            return new JSONArray();
+        }
         JSONArray items = datas.getJSONObject("data").getJSONArray("items");
         return items;
     }

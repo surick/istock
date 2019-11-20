@@ -33,7 +33,7 @@ public class StockTopHoldersService {
      */
     public void refreshTopHolders(String code){
         List<StockTopHolders> list = new ArrayList<>();
-        JSONArray rows =tushareSpider.getStockTopHolders(code);
+        JSONArray rows = tushareSpider.getStockTopHolders(code);
         String frist=null;
         for (int i = 0; i < rows.size(); i++) {
             if(null==frist){
