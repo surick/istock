@@ -15,42 +15,40 @@ import java.time.LocalDateTime;
  **/
 @Slf4j
 public class ScheduleThread implements Runnable {
-
-
-    void jobProcess() throws Exception {
-
+    private void jobProcess() throws Exception {
         TradingDateUtil tradingDateUtil = SpringContextUtil.getBean(TradingDateUtil.class);
-        boolean tradeday=tradingDateUtil.isTradingDay();
-        if(!tradeday){
+        boolean tradeday = tradingDateUtil.isTradingDay();
+
+        if (!tradeday) {
             log.info("not trade day . don't work ~ ");
             return;
         }
         LocalDateTime dateTime = LocalDateTime.now();
-        //
+
         if (tradingDateUtil.isTradingTimeNow()) {
             ITimeJobFactory.getJob(ITimeJobFactory.TIMEJOB.INDEX).execute(ITimerJob.COMMAND.START);
         } else {
             ITimeJobFactory.getJob(ITimeJobFactory.TIMEJOB.INDEX).execute(ITimerJob.COMMAND.STOP);
-            if(dateTime.getHour()>=15){
-                //下午3点  闭市后爬取info信息
+
+            if (dateTime.getHour() >= 15) {
+                // 下午3点  闭市后爬取info信息
                 ITimeJobFactory.getJob(ITimeJobFactory.TIMEJOB.INFO).execute(ITimerJob.COMMAND.START);
-                //Dy
+                // Dy
                 ITimeJobFactory.getJob(ITimeJobFactory.TIMEJOB.DY).execute(ITimerJob.COMMAND.START);
-                //top 10 holders
+                // top 10 holders
                 ITimeJobFactory.getJob(ITimeJobFactory.TIMEJOB.TOP_HOLDER).execute(ITimerJob.COMMAND.START);
             }
         }
 
-
         switch (dateTime.getHour()) {
             case 0:
-                //晚上12点
-                if(dateTime.getMinute()==1){
-                    //清理
+                // 晚上12点
+                if (dateTime.getMinute() == 1) {
+                    // 清理
                     ITimeJobFactory.getJob(ITimeJobFactory.TIMEJOB.CLEAR).execute(null);
                     // code company
                     ITimeJobFactory.getJob(ITimeJobFactory.TIMEJOB.STOCKCODE).execute(null);
-                    //year report
+                    // year report
                     ITimeJobFactory.getJob(ITimeJobFactory.TIMEJOB.YEAR_REPORT).execute(ITimerJob.COMMAND.START);
                 }
                 break;
@@ -76,12 +74,11 @@ public class ScheduleThread implements Runnable {
 
     @Override
     public void run() {
+
         try {
             jobProcess();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
-
 }

@@ -10,7 +10,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
 public class YearReportTimerJobImpl extends AbstractTimeJob {
-
     private SimpleTimerJobContainer yearReportJob;
     private AtomicInteger error=new AtomicInteger(0);
 
@@ -20,19 +19,21 @@ public class YearReportTimerJobImpl extends AbstractTimeJob {
 
     @Override
     public void execute(COMMAND command) throws Exception {
-        switch (command){
+        switch (command) {
             case START:
                 if (null == yearReportJob) {
-                    if(error.get()>30){
+                    if (error.get() > 30) {
                         log.error("Year Report download 错误超过30次,不执行Dy任务！");
-                        status=STATUS.ERROR;
+                        status = STATUS.ERROR;
                         return;
                     }
                     log.info("开启Year Report更新线程!");
                     YearReportSpider yearReportSpider = new YearReportSpider(error);
-                    yearReportJob = new SimpleTimerJobContainer(yearReportSpider,0,1, TimeUnit.SECONDS,"YearReport",4);
+                    yearReportJob =
+                            new SimpleTimerJobContainer(yearReportSpider,0,1,
+                                    TimeUnit.SECONDS,"YearReport",4);
                     new Thread(yearReportJob, "yearReportJob").start();
-                    status=STATUS.RUN;
+                    status = STATUS.RUN;
                 }
                 break;
             case STOP:
@@ -40,8 +41,10 @@ public class YearReportTimerJobImpl extends AbstractTimeJob {
                     log.info("关闭Year Report 更新线程!");
                     yearReportJob.shutDown();
                     yearReportJob = null;
-                    status=STATUS.STOP;
+                    status = STATUS.STOP;
                 }
+                break;
+            default:
                 break;
         }
     }

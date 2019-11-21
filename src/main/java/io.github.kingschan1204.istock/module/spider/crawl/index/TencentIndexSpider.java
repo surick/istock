@@ -22,8 +22,10 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class TencentIndexSpider extends AbstractHtmlSpider<Stock> {
     public TencentIndexSpider(String[] stockCode, ConcurrentLinkedQueue<Stock> queue) {
         StringBuilder queryStr = new StringBuilder();
+
         for (String code : stockCode) {
             String resultCode = StockSpider.formatStockCode(code);
+
             if (null != resultCode) {
                 queryStr.append(resultCode).append(",");
             }

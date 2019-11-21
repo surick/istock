@@ -14,21 +14,20 @@ import java.util.concurrent.atomic.AtomicInteger;
  **/
 @Slf4j
 public class SimpleTimerJobContainer implements Runnable, IJobExecuteContainer {
-
     private MonitorScheduledThreadPool scheduledExecutorService;
-    //线程组名称
+    // 线程组名称
     private String threadName;
-    //记录错误次数
+    // 记录错误次数
     private AtomicInteger error;
-    //具体的线程任务
+    // 具体的线程任务
     private Runnable task;
-    //初始延迟
+    // 初始延迟
     private long initialDelay;
-    //周期
+    // 周期
     private long period;
-    //定时单位
+    // 定时单位
     private TimeUnit unit;
-    //线程池大小
+    // 线程池大小
     private int poolSize;
 
     public SimpleTimerJobContainer(Runnable task, long initialDelay, long period, TimeUnit unit, String threadName, int poolSize) {

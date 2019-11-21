@@ -39,16 +39,15 @@ public class DividendSpider implements Runnable {
      * @throws Exception
      */
     public JSONArray combineHisDy(String code) throws Exception {
-
         String useAgent = SpringContextUtil.getProperties("spider.useagent");
 
         ThsDividendSpider thsDividendSpider = new ThsDividendSpider(code, useAgent, 3000);
-        FutureTask<JSONArray> futureTask = new FutureTask<JSONArray>(thsDividendSpider);
+        FutureTask<JSONArray> futureTask = new FutureTask<>(thsDividendSpider);
         new Thread(futureTask).start();
         JSONArray ths = futureTask.get(3, TimeUnit.SECONDS);
 
         EastMoneyDividendSpider eastmoneySpider = new EastMoneyDividendSpider(code, useAgent, 3000);
-        FutureTask<JSONArray> futureTask1 = new FutureTask<JSONArray>(eastmoneySpider);
+        FutureTask<JSONArray> futureTask1 = new FutureTask<>(eastmoneySpider);
         new Thread(futureTask1).start();
         JSONArray east = futureTask1.get(3, TimeUnit.SECONDS);
 
@@ -59,7 +58,7 @@ public class DividendSpider implements Runnable {
             east.addAll(ths);
         }
         JSONArray ret = new JSONArray();
-        Set<String> titles = new HashSet<String>();
+        Set<String> titles = new HashSet<>();
         for (int i = 0; i < east.size(); i++) {
             String title = east.getJSONObject(i).getString("title");
             if (!titles.contains(title)) {
@@ -72,9 +71,10 @@ public class DividendSpider implements Runnable {
 
     @Override
     public void run() {
-        Integer dateNumber = Integer.valueOf(TradingDateUtil.getDateYYYYMMdd()) - 3;
+        Integer dateNumber = Integer.parseInt(TradingDateUtil.getDateYYYYMMdd()) - 3;
         Criteria cr = new Criteria();
-        //小于 （3天更新一遍）
+
+        // 小于 （3天更新一遍）
         Criteria c1 = Criteria.where("dividendUpdateDay").lt(dateNumber);
         Criteria c2 = Criteria.where("dividendUpdateDay").exists(false);
         Query query = new Query(cr.orOperator(c1, c2));
@@ -89,10 +89,11 @@ public class DividendSpider implements Runnable {
             }
             return;
         }
+
         for (Stock stock : list) {
-            //记录开始时间
-            Long start = System.currentTimeMillis();
-            //分红更新记录条数
+            // 记录开始时间
+            long start = System.currentTimeMillis();
+            // 分红更新记录条数
             int affected = 0;
             JSONArray dividends = new JSONArray();
             String date = "";
@@ -109,14 +110,14 @@ public class DividendSpider implements Runnable {
                             break;
                         }
                     }
-                    //save dividend
+                    // save dividend
                     List<StockDividend> stockDividendList = JSONArray.parseArray(dividends.toJSONString(), StockDividend.class);
                     getTemplate().remove(new Query(Criteria.where("code").is(stock.getCode())), StockDividend.class);
                     SpringContextUtil.getBean(StockHisDividendRepository.class).saveAll(stockDividendList);
                     affected = stockDividendList.size();
                 }
             } catch (Exception e) {
-                log.error("error:{}", e);
+                log.error("error:{ }", e);
                 e.printStackTrace();
             }
             UpdateResult updateResult = getTemplate().upsert(

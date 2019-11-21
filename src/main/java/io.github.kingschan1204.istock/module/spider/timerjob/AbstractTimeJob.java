@@ -7,5 +7,5 @@ package io.github.kingschan1204.istock.module.spider.timerjob;
  **/
 public abstract class AbstractTimeJob implements ITimerJob{
     protected String name;
-    protected STATUS status=STATUS.STOP;
+    protected STATUS status = STATUS.STOP;
 }

@@ -16,6 +16,7 @@ public class MathFormat {
      * @return 如果不是数字则返回0
      */
     public static int intFormart(String data) {
+
         if (data.matches("\\d+")) {
             return Integer.valueOf(data);
         }
@@ -28,21 +29,24 @@ public class MathFormat {
      * @param value
      * @return
      */
-   public static Double doubleFormat(String value) {
+    public static Double doubleFormat(String value) {
         /*if (v.matches(REGEX_NUMBER)) {
             return Double.valueOf(v);
         }*/
        String v = value.replaceAll("[^0-9.E+\\-]", "");
-       if (v.isEmpty()||v.equals("--")||v.equals("-")){
+
+       if (v.isEmpty() || v.equals("--") || v.equals("-")) {
            return null;
        }
-       try{
+
+       try {
           return Double.parseDouble(v);
-       }catch (Exception e){
+       } catch (Exception e) {
            e.printStackTrace();
            return null;
        }
     }
+
     /**
      * 处理百分比的数字 4舍5入 保留两位小数
      * @param math
@@ -50,16 +54,19 @@ public class MathFormat {
      * @return 去掉百分号 X 100 保存
      */
     public static double doubleFormat(String math, boolean percent) {
-        Double value= doubleFormat(math);
-        if(null==value){
+        Double value = doubleFormat(math);
+
+        if (null == value) {
             return 0d;
         }
+
         if (percent) {
             value = value * 100;
         }
         BigDecimal b = new BigDecimal(value);
         return b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
     }
+
     /**
      * 字符串转double 可去掉非数字的字符
      * @param value  字符串
@@ -67,12 +74,13 @@ public class MathFormat {
      * @param rounded 是否四舍五入 (保留两位小数)
      * @return 如果非数字则返回null
      */
-   public static Double doubleFormat(String value,int divisor,boolean rounded) {
+    public static Double doubleFormat(String value, int divisor, boolean rounded) {
         Double d= doubleFormat(value);
-        if(null==d){return null;}
-        Double math=d/divisor;
-        if (rounded){
-            BigDecimal bd= new BigDecimal(math);
+        if (null == d) { return null; }
+        Double math = d / divisor;
+
+        if (rounded) {
+            BigDecimal bd = new BigDecimal(math);
             return bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         }
         return math;
@@ -83,17 +91,17 @@ public class MathFormat {
      * @param text
      * @return
      */
-    public static Double parseMath(String text){
-        char chars[]=text.toCharArray();
+    public static Double parseMath(String text) {
+        char chars[] = text.toCharArray();
         StringBuilder sb = new StringBuilder();
-        for (char c:chars) {
-            String str =String.valueOf(c);
-            if (str.equals("-")||str.matches("\\d")||str.equals(".")){
+
+        for (char c : chars) {
+            String str = String.valueOf(c);
+
+            if (str.equals("-") || str.matches("\\d") || str.equals(".")) {
                 sb.append(str);
             }
         }
         return sb.toString().isEmpty()?0:Double.parseDouble(sb.toString());
     }
-
-
 }

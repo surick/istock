@@ -46,6 +46,7 @@ public class Application {
         SpringApplication app = new SpringApplication(Application.class);
         app.setBannerMode(Banner.Mode.OFF);
         app.run(args);
+
         try {
             ITimeJobFactory.getJob(ITimeJobFactory.TIMEJOB.CORE_SCHEDULE).execute(ITimerJob.COMMAND.START);
         } catch (Exception e) {

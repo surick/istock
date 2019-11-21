@@ -17,7 +17,8 @@ public class SpringContextUtil implements ApplicationContextAware {
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        if(null==SpringContextUtil.applicationContext) {
+
+        if (null == SpringContextUtil.applicationContext) {
             SpringContextUtil.applicationContext = applicationContext;
         }
     }
@@ -56,7 +57,7 @@ public class SpringContextUtil implements ApplicationContextAware {
      * @param <T>
      * @return
      */
-    public static <T> T getBean(String name,Class<T> clazz){
+    public static <T> T getBean(String name, Class<T> clazz){
         return getApplicationContext().getBean(name, clazz);
     }
 
@@ -73,7 +74,7 @@ public class SpringContextUtil implements ApplicationContextAware {
      * @param key properties文件里的key
      * @return
      */
-    public static String getProperties(String key ){
+    public static String getProperties(String key){
         return getEnv().getProperty(key);
     }
 }

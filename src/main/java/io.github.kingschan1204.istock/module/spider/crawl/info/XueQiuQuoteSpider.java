@@ -29,13 +29,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Slf4j
 public class XueQiuQuoteSpider extends AbstractHtmlSpider<Stock> {
 
-    //当前要处理的代码
+    // 当前要处理的代码
     private StockCodeInfo currentCodeInfo;
     private AtomicInteger error;
 
     public XueQiuQuoteSpider(AtomicInteger error) {
         this.useAgent = SpringContextUtil.getProperties("spider.useagent");
-        this.error=error;
+        this.error = error;
     }
 
     public MongoTemplate getMongoTemp() {
@@ -43,6 +43,7 @@ public class XueQiuQuoteSpider extends AbstractHtmlSpider<Stock> {
     }
 
     /**
+     *
      * 得到当前要处理的代码
      *
      * @return

@@ -19,6 +19,4 @@ public interface IHtmlSpider {
      * @param webPage
      */
     void parsePage(WebPage webPage)throws Exception;
-
-
 }

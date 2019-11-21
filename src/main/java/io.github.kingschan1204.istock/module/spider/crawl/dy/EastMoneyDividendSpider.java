@@ -24,7 +24,7 @@ import java.util.concurrent.Callable;
  **/
 @Slf4j
 @AllArgsConstructor
-public class EastMoneyDividendSpider implements Callable<JSONArray>{
+public class EastMoneyDividendSpider implements Callable<JSONArray> {
     private String code;
     private String useAgent;
     private Integer timeOut;
@@ -36,10 +36,11 @@ public class EastMoneyDividendSpider implements Callable<JSONArray>{
         String apiUrl = String.format("http://dcfm.eastmoney.com/EM_MutiSvcExpandInterface/api/js/get?type=DCSOBS&token=%s&p=1&ps=50&sr=-1&st=ReportingPeriod&filter=&cmd=%s", token, code);
         String referer = String.format("http://data.eastmoney.com/yjfp/detail/%s.html", code);
         Document doc = null;
+
         try {
             doc =
             JsoupUitl.getWebPage(apiUrl, Connection.Method.GET,
-                    timeOut,useAgent,referer,
+                    timeOut, useAgent, referer,
                     null, null,
                     true,true).getDocument();
         } catch (Exception e) {
@@ -63,28 +64,27 @@ public class EastMoneyDividendSpider implements Callable<JSONArray>{
             if (title.matches("^\\d{4}\\-06-30$")) {
                 title = title.replaceAll("\\-.*", "") + "中报";
             }
-            //报告期
+            // 报告期
             temp.put("title", title);
-            //披露时间
+            // 披露时间
             temp.put("releaseDate", item.getString("ResultsbyDate").replaceAll(regex, ""));
-            //分配预案
+            // 分配预案
             temp.put("plan", item.getString("AllocationPlan"));
-            //送股比例
+            // 送股比例
             temp.put("sgbl", MathFormat.intFormart(item.getString("SGBL")));
-            //转股比例
+            // 转股比例
             temp.put("zgbl", MathFormat.intFormart(item.getString("ZGBL")));
-            //股息率
+            // 股息率
             temp.put("percent", MathFormat.doubleFormat(item.getString("GXL"), true));
-            //股权登记日
+            // 股权登记日
             temp.put("gqdjr", item.getString("GQDJR").replaceAll(regex, ""));
-            //除息除权日
+            // 除息除权日
             temp.put("cxcqr", item.getString("CQCXR").replaceAll(regex, ""));
-            //进度
+            // 进度
             temp.put("progress", item.getString("ProjectProgress"));
-            //来源
+            // 来源
             temp.put("from", "east");
             jsons.add(temp);
-
         }
         log.info("{}:抓取成功!", code);
         return jsons;

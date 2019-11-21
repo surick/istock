@@ -23,11 +23,10 @@ import java.util.concurrent.FutureTask;
 @Slf4j
 @Component
 public class TradingDateUtil {
-
     private final String CACHE_NAME = "TradingDate";
+
     @Autowired
     private EhcacheUtil ehcacheUtil;
-
 
     /**
      * 以20190606这种方式返回当前日期
@@ -69,7 +68,7 @@ public class TradingDateUtil {
      * @param timestamp
      * @return
      */
-    public String dateFormat(Long timestamp){
+    public String dateFormat(Long timestamp) {
             Instant instant = Instant.ofEpochMilli(timestamp);
             ZoneId zone = ZoneId.systemDefault();
             LocalDateTime localDate= LocalDateTime.ofInstant(instant, zone);
@@ -82,21 +81,17 @@ public class TradingDateUtil {
      * @return
      */
     public boolean isTradingTimeNow() {
+
         try {
             LocalDateTime dateTime = LocalDateTime.now();
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             String day = dtf.format(dateTime);
+
             if (isTradingDay(day)) {
-                if (isTradingTime(dateTime.getHour(), dateTime.getMinute())) {
-//                    log.info("现在是交易时间");
-                    return true;
-                } else {
-//                    log.info("现在不是交易时间");
-                    return false;
-                }
+                return isTradingTime(dateTime.getHour(), dateTime.getMinute());
             }
         } catch (Exception ex) {
-            log.error("{}", ex);
+            log.error("{ }", ex);
             ex.printStackTrace();
         }
         return false;
@@ -112,10 +107,11 @@ public class TradingDateUtil {
         LocalDateTime dateTime = LocalDateTime.now();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String day = dtf.format(dateTime);
+
         try {
             return isTradingDay(day);
         } catch (Exception e) {
-            log.error("{}", e);
+            log.error("{ }", e);
             e.printStackTrace();
             return false;
         }
@@ -128,18 +124,20 @@ public class TradingDateUtil {
      * @return
      */
     public boolean isTradingDay(String date) throws Exception {
+
         if (!date.matches("\\d{4}\\-\\d{2}\\-\\d{2}")) {
             throw new Exception("传入日期格式不正确：yyyy-MM-dd");
         }
+
         if (ehcacheUtil.contrainKey(CACHE_NAME, date)) {
             return (boolean) ehcacheUtil.getKey(CACHE_NAME, date);
         } else {
             String month = date.substring(0, 7);
             TradingDateSpider spider = new TradingDateSpider(month);
-            FutureTask<Map<String, Boolean>> futureTask = new FutureTask<Map<String, Boolean>>(spider);
+            FutureTask<Map<String, Boolean>> futureTask = new FutureTask<>(spider);
             new Thread(futureTask).start();
             Map<String, Boolean> map = futureTask.get();
-            map.keySet().stream().forEach(key -> {
+            map.keySet().forEach(key -> {
                 ehcacheUtil.addKey(CACHE_NAME, key, map.get(key));
             });
             return map.get(date);
@@ -154,12 +152,14 @@ public class TradingDateUtil {
      * @return
      */
     public boolean isTradingTime(int hour, int minute) {
+
         if (hour >= 9 && hour <= 11) {
+
             if (hour == 9 && minute < 30) {
-                //未到9点半
+                // 未到9点半
                 return false;
             } else if (hour == 11 && minute > 30) {
-                //超过11点半
+                // 超过11点半
                 return false;
             } else {
                 return true;

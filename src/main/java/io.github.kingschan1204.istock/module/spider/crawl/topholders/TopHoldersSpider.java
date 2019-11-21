@@ -21,23 +21,25 @@ import java.util.List;
  * @create 2019-03-28 17:58
  **/
 @Slf4j
-public class TopHoldersSpider implements Runnable{
+public class TopHoldersSpider implements Runnable {
 
     /**
      * 获取作业code
      * @param template
      * @return
      */
-    String getCode(MongoTemplate template) throws Exception {
-        //3天更新一遍
+    private String getCode(MongoTemplate template) throws Exception {
+
+        // 3天更新一遍
         Integer dateNumber = Integer.valueOf(TradingDateUtil.minusDate(0,0,3,"yyyyMMdd"));
         Criteria cr = new Criteria();
         Criteria c1 = Criteria.where("holdersDate").lt(dateNumber);
         Criteria c2 = Criteria.where("holdersDate").exists(false);
-        Query query = new Query(cr.orOperator(c1,c2));
+        Query query = new Query(cr.orOperator(c1, c2));
         query.limit(1);
         List<StockCodeInfo> list = template.find(query, StockCodeInfo.class);
-        if(null!=list&&list.size()>0){
+
+        if (null != list && list.size() > 0) {
             return list.get(0).getCode();
         }
         log.info("top holder 更新完毕！关闭作业");
@@ -47,21 +49,23 @@ public class TopHoldersSpider implements Runnable{
 
     @Override
     public void run() {
+
         try {
             MongoTemplate mongoTemplate = SpringContextUtil.getBean(MongoTemplate.class);
             StockTopHoldersService stockTopHoldersService=SpringContextUtil.getBean(StockTopHoldersService.class);
             String code = getCode(mongoTemplate);
-            if(null==code){
+
+            if (null == code) {
                 return;
             }
             stockTopHoldersService.refreshTopHolders(TushareApi.formatCode(code));
-           UpdateResult updateResult= mongoTemplate.upsert(
+           UpdateResult updateResult = mongoTemplate.upsert(
                     new Query(Criteria.where("_id").is(code)),
-                    new Update().set("holdersDate",Integer.valueOf(TradingDateUtil.getDateYYYYMMdd())),"stock_code_info");
-           log.info("代码{}top holders 更新{}行",code,updateResult.getMatchedCount());
+                    new Update().set("holdersDate", Integer.valueOf(TradingDateUtil.getDateYYYYMMdd())),"stock_code_info");
+           log.info("代码{}top holders 更新{}行", code, updateResult.getMatchedCount());
         } catch (Exception e) {
             e.printStackTrace();
-            log.error("{}",e);
+            log.error("{ }",e);
         }
     }
 }

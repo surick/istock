@@ -14,18 +14,18 @@ public class XqQuoteDto {
     private Double pe_ttm;
 
     public Double getHigh52w() {
-        return null==high52w?-1:high52w;
+        return null == high52w ? -1 : high52w;
     }
 
     public Double getDividend_yield() {
-        return null==dividend_yield?-1:dividend_yield;
+        return null == dividend_yield ? -1 : dividend_yield;
     }
 
     public Double getLow52w() {
-        return null==low52w?-1:low52w;
+        return null == low52w ? -1 : low52w;
     }
 
     public Double getPe_ttm() {
-        return null==pe_ttm?-1:pe_ttm;
+        return null == pe_ttm ? -1 : pe_ttm;
     }
 }

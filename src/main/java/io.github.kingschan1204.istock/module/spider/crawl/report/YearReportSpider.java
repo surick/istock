@@ -27,43 +27,47 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class YearReportSpider implements Runnable {
     private AtomicInteger error;
     public YearReportSpider(AtomicInteger error){
-        this.error=error;
+        this.error = error;
     }
 
-    MongoTemplate getTempleate() {
+    private MongoTemplate getTempleate() {
         return SpringContextUtil.getBean(MongoTemplate.class);
     }
 
-    List<StockCodeInfo> getCode() {
+    private List<StockCodeInfo> getCode() {
         Integer dateNumber = Integer.valueOf(TradingDateUtil.getDateYYYYMMdd());
         Criteria cr = new Criteria();
-        //3天更新一把
+
+        // 3天更新一把
         Criteria c1 = Criteria.where("yearReportDate").lt(dateNumber - 3);
         Criteria c2 = Criteria.where("xlsError").is(0);
         Criteria c3 = Criteria.where("yearReportDate").exists(false);
         Query query = new Query(cr.orOperator(c3, new Criteria().andOperator(c1, c2)));
         query.limit(2);
         List<StockCodeInfo> list = getTempleate().find(query, StockCodeInfo.class);
+
         if (null == list || list.size() == 0) {
             return null;
         }
         return list;
     }
 
-   void doJob()throws Exception{
+   private void doJob()throws Exception{
         List<StockCodeInfo> list = getCode();
+
         if (null == list) {
             log.info("year report 处理完毕");
             ITimeJobFactory.getJob(ITimeJobFactory.TIMEJOB.YEAR_REPORT).execute(ITimerJob.COMMAND.STOP);
             return;
         }
-        Long start = System.currentTimeMillis();
-        list.stream().forEach(code -> {
+        long start = System.currentTimeMillis();
+        list.forEach(code -> {
             JSONArray jsons = null;
             String codestr = code.getCode().replaceAll("\\D", "");
             StockYearReportRepository stockYearReportRepository = SpringContextUtil.getBean(StockYearReportRepository.class);
             Integer dateNumber = Integer.valueOf(TradingDateUtil.getDateYYYYMMdd());
             StockSpider spider = SpringContextUtil.getBean(StockSpider.class);
+
             try {
                 jsons = spider.getHistoryROE(codestr);
                 List<StockYearReport> lis = JSON.parseArray(jsons.toJSONString(), StockYearReport.class);
@@ -90,7 +94,7 @@ public class YearReportSpider implements Runnable {
     public void run() {
         try {
             doJob();
-            if(error.get()>30){
+            if (error.get() > 30) {
                 log.error("错误超过30次，即将关闭YearReport任务");
                 ITimeJobFactory.getJob(ITimeJobFactory.TIMEJOB.YEAR_REPORT).execute(ITimerJob.COMMAND.STOP);
             }

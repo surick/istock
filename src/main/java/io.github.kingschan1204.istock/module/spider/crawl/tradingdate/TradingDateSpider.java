@@ -20,27 +20,33 @@ import java.util.concurrent.Callable;
  *  http://www.szse.cn/api/report/exchange/onepersistentday/monthList?random=0.2812774184280482
  **/
 @Slf4j
-public class TradingDateSpider implements Callable<Map<String,Boolean>>{
-    private final String baseUrl="http://www.szse.cn/api/report/exchange/onepersistentday/monthList";
+public class TradingDateSpider implements Callable<Map<String, Boolean>> {
+    private final String baseUrl = "http://www.szse.cn/api/report/exchange/onepersistentday/monthList";
     private String month;
     private String url;
-    public TradingDateSpider(String month){
-        this.month=month;
-        url=null==month?baseUrl:String.format("%s?month=%s",baseUrl,month);
+
+    public TradingDateSpider(String month) {
+        this.month = month;
+        url =
+                null == month ? baseUrl : String.format("%s?month=%s", baseUrl, month);
     }
 
     @Override
     public Map<String, Boolean> call() throws Exception {
-        WebPage webPage= JsoupUitl.getWebPage(url, Connection.Method.GET,
+        WebPage webPage = JsoupUitl.getWebPage(url, Connection.Method.GET,
                 8000,null,"http://www.szse.cn/disclosure/index.html");
-        Optional.ofNullable(webPage).map(webPage1 -> webPage1.getDocument().text()).orElseThrow(()->new Exception("web page null"));
+
+        Optional.ofNullable(webPage)
+                .map(webPage1 -> webPage1.getDocument().text()).orElseThrow(() -> new Exception("web page null"));
+
         JSONObject json = JSON.parseObject(webPage.getDocument().text());
         JSONArray jsonArray = json.getJSONArray("data");
         Map<String, Boolean> data = new HashMap<>();
+
         for (int i = 0; i < jsonArray.size(); i++) {
             data.put(
                     jsonArray.getJSONObject(i).getString("jyrq"),
-                    jsonArray.getJSONObject(i).getInteger("jybz")==1
+                    jsonArray.getJSONObject(i).getInteger("jybz") == 1
             );
         }
         return data;

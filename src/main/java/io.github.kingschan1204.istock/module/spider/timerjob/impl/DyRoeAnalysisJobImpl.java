@@ -13,19 +13,21 @@ import java.time.LocalDate;
  **/
 @Slf4j
 public class DyRoeAnalysisJobImpl extends AbstractTimeJob {
-
-   public DyRoeAnalysisJobImpl(){
-        name="ROE,DY计算任务";
+    public DyRoeAnalysisJobImpl(){
+        name = "ROE,DY计算任务";
     }
+
     @Override
     public void execute(COMMAND command) throws Exception {
         StockService stockService = SpringContextUtil.getBean(StockService.class);
         LocalDate localDate = LocalDate.now();
-        //3年 dy
+
+        // 3年 dy
         int start_year_3 = localDate.getYear() - 3;
         log.info("3年dy计算：{}-{}-{}", start_year_3, localDate.getYear(), "threeYearDy");
         stockService.calculateFiveYearsDy(start_year_3, localDate.getYear(), "threeYearDy");
-        //5 dy
+
+        // 5 dy
         int start_year_5 = localDate.getYear() - 5;
         stockService.calculateFiveYearsDy(start_year_5, localDate.getYear(), "fiveYearDy");
         log.info("5年dy计算：{}-{}-{}", start_year_5, localDate.getYear(), "fiveYearDy");

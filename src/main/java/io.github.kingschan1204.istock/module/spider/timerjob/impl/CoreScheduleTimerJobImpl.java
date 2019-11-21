@@ -13,34 +13,37 @@ import java.util.concurrent.TimeUnit;
  **/
 @Slf4j
 public class CoreScheduleTimerJobImpl extends AbstractTimeJob {
-
     private SimpleTimerJobContainer scheduleJob;
 
     public CoreScheduleTimerJobImpl(){
-        name="核心调度任务负责管理所有任务调度";
+        name = "核心调度任务负责管理所有任务调度";
     }
 
     @Override
     public void execute(COMMAND command) throws Exception {
-        switch (command){
+        switch (command) {
             case START:
-                if(null==scheduleJob){
+                if (null == scheduleJob) {
                     log.info("开启核心调度任务!");
                     ScheduleThread scheduleThread = new ScheduleThread();
-                    scheduleJob=new SimpleTimerJobContainer(scheduleThread,0,1, TimeUnit.MINUTES,"coreSchedule",1);
+                    scheduleJob =
+                            new SimpleTimerJobContainer(scheduleThread,0,1,
+                                    TimeUnit.MINUTES,"coreSchedule",1);
                     Thread thread = new Thread(scheduleJob);
                     thread.setDaemon(true);
                     thread.start();
-                    status=STATUS.RUN;
+                    status = STATUS.RUN;
                 }
                 break;
             case STOP:
-                if(null!=scheduleJob){
+                if (null != scheduleJob) {
                     log.info("关闭核心调度任务!");
                     scheduleJob.shutDown();
-                    scheduleJob=null;
-                    status=STATUS.STOP;
+                    scheduleJob = null;
+                    status = STATUS.STOP;
                 }
+                break;
+            default:
                 break;
         }
     }

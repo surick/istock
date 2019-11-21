@@ -7,8 +7,6 @@ package io.github.kingschan1204.istock.module.spider.timerjob;
  * @create 2019-03-28 0:25
  **/
 public interface ITimerJob {
-
-
     public enum COMMAND{
         START,STOP
     }
@@ -23,5 +21,4 @@ public interface ITimerJob {
      * @throws Exception
      */
     void execute(COMMAND command)throws Exception;
-
 }

@@ -23,14 +23,16 @@ public class DailyBasicTimerJobImpl extends AbstractTimeJob {
 
     @Override
     public void execute(COMMAND command) throws Exception {
-        switch (command){
+        switch (command) {
             case START:
                 if (null == dailyBasicCrawlJob) {
                     log.info("开启basic daily更新线程!");
                     DailyBasicSpider dailyBasicSpider = new DailyBasicSpider();
-                    dailyBasicCrawlJob = new SimpleTimerJobContainer(dailyBasicSpider,0,3, TimeUnit.SECONDS,"dailyBasicSpider",4);
+                    dailyBasicCrawlJob =
+                            new SimpleTimerJobContainer(dailyBasicSpider,0,3,
+                                    TimeUnit.SECONDS,"dailyBasicSpider",4);
                     new Thread(dailyBasicCrawlJob, "DailyBasicCrawlJob").start();
-                    status=STATUS.RUN;
+                    status = STATUS.RUN;
                 }
                 break;
             case STOP:
@@ -38,8 +40,10 @@ public class DailyBasicTimerJobImpl extends AbstractTimeJob {
                     log.info("关闭basic daily更新线程!");
                     dailyBasicCrawlJob.shutDown();
                     dailyBasicCrawlJob = null;
-                    status=STATUS.STOP;
+                    status = STATUS.STOP;
                 }
+                break;
+            default:
                 break;
         }
     }

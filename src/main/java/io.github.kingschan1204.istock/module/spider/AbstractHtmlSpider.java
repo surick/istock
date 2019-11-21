@@ -20,19 +20,20 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 @AllArgsConstructor
 @Slf4j
 public abstract class AbstractHtmlSpider<T> implements Runnable, IHtmlSpider {
-    //任务执行容器
+
+    // 任务执行容器
     protected ConcurrentLinkedQueue<T> queue;
     protected Map<String, String> cookie;
     protected String referer;
     protected String pageUrl;
     protected Integer timeOut;
     protected String useAgent;
-    //Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(ip, port));
+
+    // Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(ip, port));
     protected Proxy proxy;
     protected Boolean ignoreContentType;
     protected Boolean ignoreHttpErrors;
     protected Connection.Method method;
-
 
     @Override
     public WebPage crawlPage() {
@@ -52,5 +53,4 @@ public abstract class AbstractHtmlSpider<T> implements Runnable, IHtmlSpider {
             log.error("page process error {} {}", pageUrl, ex);
         }
     }
-
 }

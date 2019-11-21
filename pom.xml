@@ -150,8 +150,6 @@
             <artifactId>ant</artifactId>
             <version>1.10.6</version>
         </dependency>
-
-
     </dependencies>
     <dependencyManagement>
         <dependencies>

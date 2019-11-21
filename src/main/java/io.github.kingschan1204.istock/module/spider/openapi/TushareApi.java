@@ -23,11 +23,12 @@ import org.springframework.web.client.RestTemplate;
 @Slf4j
 @Component("TushareSpider")
 public class TushareApi {
-
     @Value("${tushare.token}")
     private String tuToken;
+
     @Autowired
     private RestTemplate restTemplate;
+
     final String api = "http://api.tushare.pro";
 
     /**
@@ -56,12 +57,11 @@ public class TushareApi {
      */
     String post(JSONObject params) {
         HttpHeaders headers = new HttpHeaders();
-        //定义请求参数类型，这里用json所以是MediaType.APPLICATION_JSON
+        // 定义请求参数类型，这里用json所以是MediaType.APPLICATION_JSON
         headers.setContentType(MediaType.APPLICATION_JSON);
         params.put("token", tuToken);
-        HttpEntity<String> formEntity = new HttpEntity<String>(params.toString(), headers);
-        String result = restTemplate.postForObject(api, formEntity, String.class);
-        return result;
+        HttpEntity<String> formEntity = new HttpEntity<>(params.toString(), headers);
+        return restTemplate.postForObject(api, formEntity, String.class);
     }
 
 
@@ -72,15 +72,16 @@ public class TushareApi {
      */
     public JSONArray getStockCodeList() {
         JSONObject json = new JSONObject();
-        //接口名称
+
+        // 接口名称
         json.put("api_name", "stock_basic");
-        //只取上市的
+
+        // 只取上市的
         json.put("params", JSON.parse("{'list_status':'L'}"));
         json.put("fields", "ts_code,symbol,name,area,industry,fullname,market,list_status,list_date");
         String result = post(json);
         JSONObject datas = JSON.parseObject(result);
-        JSONArray items = datas.getJSONObject("data").getJSONArray("items");
-        return items;
+        return datas.getJSONObject("data").getJSONArray("items");
     }
 
     /**
@@ -90,14 +91,14 @@ public class TushareApi {
      */
     public JSONArray getStockShCompany() {
         JSONObject json = new JSONObject();
-        //接口名称
+
+        // 接口名称
         json.put("api_name", "stock_company");
         json.put("params", JSON.parse("{'exchange':'SSE'}"));
         json.put("fields", "ts_code,chairman,manager,secretary,reg_capital,setup_date,province,city,introduction,website,email,office,employees,main_business,business_scope");
         String result = post(json);
         JSONObject data = JSON.parseObject(result);
-        JSONArray items = data.getJSONObject("data").getJSONArray("items");
-        return items;
+        return data.getJSONObject("data").getJSONArray("items");
     }
 
     /**
@@ -107,14 +108,14 @@ public class TushareApi {
      */
     public JSONArray getStockSZCompany() {
         JSONObject json = new JSONObject();
-        //接口名称
+
+        // 接口名称
         json.put("api_name", "stock_company");
         json.put("params", JSON.parse("{'exchange':'SZSE'}"));
         json.put("fields", "ts_code,chairman,manager,secretary,reg_capital,setup_date,province,city,introduction,website,email,office,employees,main_business,business_scope");
         String result = post(json);
         JSONObject data = JSON.parseObject(result);
-        JSONArray items = data.getJSONObject("data").getJSONArray("items");
-        return items;
+        return data.getJSONObject("data").getJSONArray("items");
     }
 
     /**
@@ -125,7 +126,8 @@ public class TushareApi {
      */
     public JSONArray getStockTopHolders(String code) {
         JSONObject json = new JSONObject();
-        //接口名称
+
+        // 接口名称
         json.put("api_name", "top10_holders");
         json.put("params", JSON.parse(String.format("{'ts_code':'%s'}", code)));
         json.put("fields", "ts_code,ann_date,end_date,holder_name,hold_amount,hold_ratio");
@@ -133,11 +135,10 @@ public class TushareApi {
         JSONObject datas = JSON.parseObject(result);
 
         if (datas.getJSONObject("data") == null) {
-            log.error("无权限访问接口{ }", datas);
+            log.error("无权限访问接口{}", datas);
             return new JSONArray();
         }
-        JSONArray items = datas.getJSONObject("data").getJSONArray("items");
-        return items;
+        return datas.getJSONObject("data").getJSONArray("items");
     }
 
     /**
@@ -154,13 +155,13 @@ public class TushareApi {
         params.put("ts_code", code);
         params.put("start_date", start_date);
         params.put("end_date", end_date);
-        //接口名称
+
+        // 接口名称
         json.put("api_name", "stk_holdernumber");
         json.put("params", params);
         String result = post(json);
         JSONObject datas = JSON.parseObject(result);
-        JSONArray items = datas.getJSONObject("data").getJSONArray("items");
-        return items;
+        return datas.getJSONObject("data").getJSONArray("items");
     }
 
     /**
@@ -177,13 +178,13 @@ public class TushareApi {
         params.put("ts_code", code);
         params.put("start_date", start_date);
         params.put("end_date", end_date);
-        //接口名称
+
+        // 接口名称
         json.put("api_name", "daily");
         json.put("params", params);
         String result = post(json);
         JSONObject datas = JSON.parseObject(result);
-        JSONArray items = datas.getJSONObject("data").getJSONArray("items");
-        return items;
+        return datas.getJSONObject("data").getJSONArray("items");
     }
 
     /**
@@ -200,13 +201,13 @@ public class TushareApi {
         params.put("ts_code", code);
         params.put("start_date", start_date);
         params.put("end_date", end_date);
-        //接口名称
+
+        // 接口名称
         json.put("api_name", "daily_basic");
         json.put("params", params);
         String result = post(json);
         JSONObject datas = JSON.parseObject(result);
-        JSONArray items = datas.getJSONObject("data").getJSONArray("items");
-        return items;
+        return datas.getJSONObject("data").getJSONArray("items");
     }
 
 

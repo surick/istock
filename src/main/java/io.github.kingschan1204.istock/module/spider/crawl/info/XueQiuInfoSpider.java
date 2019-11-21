@@ -41,7 +41,7 @@ public class XueQiuInfoSpider implements Callable<JSONObject> {
                 cookie, null,
                 true, true);
         Optional.ofNullable(webPage).map(webPage1 -> webPage1.getDocument().text()).orElseThrow(() -> new Exception("web page null"));
-        JSONObject json = JSON.parseObject(webPage.getDocument().text());
-        return json;
+
+        return JSON.parseObject(webPage.getDocument().text());
     }
 }

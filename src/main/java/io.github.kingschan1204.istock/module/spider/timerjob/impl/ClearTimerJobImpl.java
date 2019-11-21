@@ -5,12 +5,12 @@ import io.github.kingschan1204.istock.module.maindata.po.StockHisPbPe;
 import io.github.kingschan1204.istock.module.maindata.po.StockPriceDaily;
 import io.github.kingschan1204.istock.module.maindata.po.StockReport;
 import io.github.kingschan1204.istock.module.spider.timerjob.AbstractTimeJob;
-import io.github.kingschan1204.istock.module.spider.timerjob.ITimerJob;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * 0点要执行的清理工作
@@ -19,9 +19,8 @@ import java.util.Arrays;
  **/
 @Slf4j
 public class ClearTimerJobImpl extends AbstractTimeJob {
-
-   public ClearTimerJobImpl(){
-        name="清理任务";
+    public ClearTimerJobImpl(){
+        name = "清理任务";
     }
 
     @Override
@@ -29,14 +28,14 @@ public class ClearTimerJobImpl extends AbstractTimeJob {
         log.info("执行清理工作...");
         MongoTemplate mongoTemplate = SpringContextUtil.getBean(MongoTemplate.class);
         File f = new File("./data/");
-        if(!f.exists()){return;}
-        Arrays.stream(f.listFiles()).forEach(file ->{
-            log.info("清理文件:{} {}", file.getName(),file.delete());
-        });
 
+        if (!f.exists()) { return; }
+        Arrays.stream(Objects.requireNonNull(f.listFiles())).forEach(file ->{
+            log.info("清理文件:{} {}", file.getName(), file.delete());
+        });
         mongoTemplate.dropCollection(StockHisPbPe.class);
         mongoTemplate.dropCollection(StockReport.class);
         mongoTemplate.dropCollection(StockPriceDaily.class);
-        log.info("{}","删除历史pb,pe,price,报表数据");
+        log.info("{}", "删除历史pb,pe,price,报表数据");
     }
 }

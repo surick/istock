@@ -24,10 +24,10 @@ import java.util.concurrent.*;
 public class IndexCrawlJob implements Runnable {
     private ScheduledExecutorService scheduledExecutorService;
     private ScheduledExecutorService scheduledExecutorService2;
-    ConcurrentLinkedQueue<Stock> stockQueue = new ConcurrentLinkedQueue<>();
+    private ConcurrentLinkedQueue<Stock> stockQueue = new ConcurrentLinkedQueue<>();
 
-    //scheduleAtFixedRate 也就是规定频率为1h，那么好，A任务开始执行，过来一个小时后，不管A是否执行完，都开启B任务
-    //scheduleWithFixedDealy却是需要在A任务执行完后，在经过1小时后再去执行B任务；
+    // scheduleAtFixedRate 也就是规定频率为1h，那么好，A任务开始执行，过来一个小时后，不管A是否执行完，都开启B任务
+    // scheduleWithFixedDealy却是需要在A任务执行完后，在经过1小时后再去执行B任务；
     public IndexCrawlJob() {
         scheduledExecutorService = Executors.newScheduledThreadPool(12, new MyThreadFactory("crawlerJob-index"));
         scheduledExecutorService2 = Executors.newScheduledThreadPool(5, new MyThreadFactory("outJob-index"));
@@ -55,7 +55,7 @@ public class IndexCrawlJob implements Runnable {
         StockCodeInfoService stockCodeInfoService = SpringContextUtil.getBean(StockCodeInfoService.class);
         MongoTemplate template = SpringContextUtil.getBean(MongoTemplate.class);
 
-        //sz
+        // sz
         List<StockCodeInfo> sz_codes = stockCodeInfoService.getSZStockCodes();
         List<String> list = new ArrayList<>();
         for (int i = 0; i < sz_codes.size(); i++) {
@@ -70,10 +70,9 @@ public class IndexCrawlJob implements Runnable {
                     ex.printStackTrace();
                 }
             }
-
         }
 
-        //sh
+        // sh
         List<StockCodeInfo> sh_codes = stockCodeInfoService.getSHStockCodes();
         list = new ArrayList<>();
         for (int i = 0; i < sh_codes.size(); i++) {
@@ -89,9 +88,7 @@ public class IndexCrawlJob implements Runnable {
                     ex.printStackTrace();
                 }
             }
-
         }
-
 
         scheduledExecutorService2.scheduleWithFixedDelay(new Runnable() {
             @Override
@@ -118,7 +115,6 @@ public class IndexCrawlJob implements Runnable {
                 }
                 //循环插完以后批量执行提交一下ok！
                 ops.execute();
-
             }
         }, 0, 2, TimeUnit.SECONDS);
     }

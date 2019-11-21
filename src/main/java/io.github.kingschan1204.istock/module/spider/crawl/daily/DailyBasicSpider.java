@@ -26,7 +26,7 @@ import java.util.List;
  **/
 @Slf4j
 public class DailyBasicSpider implements Runnable {
-    //当前要处理的代码
+    // 当前要处理的代码
     private StockCodeInfo currentCodeInfo;
 
     public MongoTemplate getMongoTemp() {
@@ -54,7 +54,7 @@ public class DailyBasicSpider implements Runnable {
                 ITimeJobFactory.getJob(ITimeJobFactory.TIMEJOB.DAILY_BASIC).execute(ITimerJob.COMMAND.STOP);
             } catch (Exception e) {
                 e.printStackTrace();
-                log.error("{}", e);
+                log.error("{ }", e);
             }
         }
     }

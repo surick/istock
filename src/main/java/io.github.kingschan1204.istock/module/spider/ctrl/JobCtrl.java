@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/job")
 @Controller
 public class JobCtrl {
-
     @ResponseBody
     @GetMapping("/joblist")
     public JSONArray jobList() {

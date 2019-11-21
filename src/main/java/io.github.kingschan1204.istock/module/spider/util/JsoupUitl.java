@@ -37,8 +37,6 @@ public class JsoupUitl {
                 true, true);
     }
 
-
-
     /**
      * jsoup 通用请求方法
      * @param pageUrl url
@@ -60,53 +58,63 @@ public class JsoupUitl {
         Connection connection = Jsoup.connect(pageUrl)
                 .timeout(null == timeOut ? 8000 : timeOut)
                 .method(null == method ? Connection.Method.GET : method);
-        if(null!=useAgent){
+
+        if (null != useAgent) {
             connection.userAgent(useAgent);
         }
+
         if (null != ignoreContentType) {
             connection.ignoreContentType(ignoreContentType);
         }
+
         if (null != ignoreHttpErrors) {
             connection.ignoreHttpErrors(ignoreHttpErrors);
         }
+
         if (null != referer) {
             connection.referrer(referer);
         }
+
         if (null != proxy) {
             connection.proxy(proxy);
         }
+
         if (null != cookie) {
             connection.cookies(cookie);
         }
-        Long start = System.currentTimeMillis();
+        long start = System.currentTimeMillis();
+
         try {
             log.debug(pageUrl);
             Connection.Response response = connection.execute();
             Document document = response.parse();
-            webPage = new WebPage(System.currentTimeMillis() - start, pageUrl, document, document.html(),response.statusCode());
+            webPage =
+                    new WebPage(System.currentTimeMillis() - start, pageUrl, document,
+                            document.html(), response.statusCode());
             return webPage;
-        }catch (SocketTimeoutException ex){
+        } catch (SocketTimeoutException ex){
             log.error("crawlPage {} {}", pageUrl, "网络超时!");
-        }catch (HttpStatusException ex){
+        } catch (HttpStatusException ex){
             log.error("crawlPage {} {}", pageUrl, ex);
-            return webPage = new WebPage(System.currentTimeMillis() - start, pageUrl, null, null,ex.getStatusCode());
-        }
-        catch (Exception e) {
+            return
+                    new WebPage(System.currentTimeMillis() - start, pageUrl,
+                            null, null, ex.getStatusCode());
+        } catch (Exception e) {
             log.error("crawlPage {} {}", pageUrl, e);
         }
         return null;
     }
 
-
     public static void main(String[] args) {
-        String ip="";//119.102.24.179  110.52.235.5
-        int port=9999;
-        String url="http://ip.tool.chinaz.com/";
-        WebPage webPage =getWebPage(
+        String ip = ""; //119.102.24.179  110.52.235.5
+        int port = 9999;
+        String url = "http://ip.tool.chinaz.com/";
+        WebPage webPage = getWebPage(
                 url, Connection.Method.GET,
                 10000, "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.96 Safari/537.36", "",
                 null, new Proxy(Proxy.Type.HTTP, new InetSocketAddress(ip, port)),
                 true, true);
+
         System.out.println(webPage.getDocument().getElementById("rightinfo").text());
     }
 }

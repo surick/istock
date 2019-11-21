@@ -13,23 +13,24 @@ import java.util.concurrent.TimeUnit;
  **/
 @Slf4j
 public class InfoTimerJobImpl extends AbstractTimeJob {
-
     private SimpleTimerJobContainer infoCrawlJob;
 
     public InfoTimerJobImpl(){
-        name="股票详情数据抓取任务";
+        name = "股票详情数据抓取任务";
     }
 
     @Override
     public void execute(COMMAND command) throws Exception {
-        switch (command){
+        switch (command) {
             case START:
                 if (null == infoCrawlJob) {
                     log.info("开启info更新线程!");
                     ThsInfoSpider infoSpider = new ThsInfoSpider();
-                    infoCrawlJob = new SimpleTimerJobContainer(infoSpider,0,1, TimeUnit.SECONDS,"ths-info",4);
+                    infoCrawlJob =
+                            new SimpleTimerJobContainer(infoSpider,0,1, TimeUnit.SECONDS,
+                                    "ths-info",4);
                     new Thread(infoCrawlJob, "InfoCrawlJob").start();
-                    status=STATUS.RUN;
+                    status = STATUS.RUN;
                 }
                 break;
             case STOP:
@@ -37,8 +38,10 @@ public class InfoTimerJobImpl extends AbstractTimeJob {
                     log.info("关闭thsinfo更新线程!");
                     infoCrawlJob.shutDown();
                     infoCrawlJob = null;
-                    status=STATUS.STOP;
+                    status = STATUS.STOP;
                 }
+                break;
+            default:
                 break;
         }
     }

@@ -10,30 +10,30 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
 public class XueQiuDyTimerJobImpl extends AbstractTimeJob {
-
     private SimpleTimerJobContainer dyCrawlJob;
     private AtomicInteger error=new AtomicInteger(0);
 
     public XueQiuDyTimerJobImpl(){
-        name="雪球dy更新任务";
+        name = "雪球dy更新任务";
     }
 
     @Override
     public void execute(COMMAND command) throws Exception {
-        switch (command){
+        switch (command) {
             case START:
                 if (null == dyCrawlJob) {
-                    if(error.get()>10){
+
+                    if (error.get() > 10) {
                         log.error("雪球token失效,错误超过10次,不执行Dy任务！");
-                        status=STATUS.ERROR;
+                        status = STATUS.ERROR;
                         return;
                     }
                     log.info("开启dy更新线程!");
                     XueQiuQuoteSpider xueQiuQuoteSpider = new XueQiuQuoteSpider(error);
                     dyCrawlJob = new SimpleTimerJobContainer(
-                            xueQiuQuoteSpider,0,1, TimeUnit.SECONDS,"xueqiu-info",4);
+                            xueQiuQuoteSpider,0, 1, TimeUnit.SECONDS,"xueqiu-info",4);
                     new Thread(dyCrawlJob, "DyCrawlJob").start();
-                    status=STATUS.RUN;
+                    status = STATUS.RUN;
                 }
                 break;
             case STOP:
@@ -41,8 +41,10 @@ public class XueQiuDyTimerJobImpl extends AbstractTimeJob {
                     log.info("关闭Dy更新线程!");
                     dyCrawlJob.shutDown();
                     dyCrawlJob = null;
-                    status=STATUS.STOP;
+                    status = STATUS.STOP;
                 }
+                break;
+            default:
                 break;
         }
     }

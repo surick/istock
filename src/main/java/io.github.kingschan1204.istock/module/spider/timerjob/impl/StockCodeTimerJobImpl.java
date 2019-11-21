@@ -14,21 +14,21 @@ import lombok.extern.slf4j.Slf4j;
  **/
 @Slf4j
 public class StockCodeTimerJobImpl extends AbstractTimeJob {
-
     public StockCodeTimerJobImpl(){
-        name="A股所有代码更新任务";
+        name = "A股所有代码更新任务";
     }
 
     @Override
     public void execute(COMMAND command) throws Exception {
         StockCodeInfoService stockCodeInfoService = SpringContextUtil.getBean(StockCodeInfoService.class);
         StockCompanyService stockCompanyService = SpringContextUtil.getBean(StockCompanyService.class);
-        Long start = System.currentTimeMillis();
+        long start = System.currentTimeMillis();
+
         try {
             stockCodeInfoService.refreshCode();
             stockCompanyService.refreshStockCompany();
         } catch (Exception e) {
-            log.error("代码更新错误：{}", e);
+            log.error("代码更新错误：{ }", e);
             e.printStackTrace();
         }
         log.info(String.format("更新代码共耗时：%s ms", (System.currentTimeMillis() - start)));

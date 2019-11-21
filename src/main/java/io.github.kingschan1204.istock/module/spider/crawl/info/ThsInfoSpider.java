@@ -30,7 +30,7 @@ import java.util.List;
 @Slf4j
 public class ThsInfoSpider extends AbstractHtmlSpider<Stock> {
 
-    //当前要处理的代码
+    // 当前要处理的代码
     private StockCodeInfo currentCodeInfo;
 
     public ThsInfoSpider() {
@@ -54,6 +54,7 @@ public class ThsInfoSpider extends AbstractHtmlSpider<Stock> {
         Query query = new Query(cr.orOperator(c1, c2));
         query.limit(1);
         List<StockCodeInfo> list = getMongoTemp().find(query, StockCodeInfo.class);
+
         if (null != list && list.size() > 0) {
             this.currentCodeInfo = list.get(0);
         } else {
@@ -62,7 +63,7 @@ public class ThsInfoSpider extends AbstractHtmlSpider<Stock> {
                 ITimeJobFactory.getJob(ITimeJobFactory.TIMEJOB.INFO).execute(ITimerJob.COMMAND.STOP);
             } catch (Exception e) {
                 e.printStackTrace();
-                log.error("{}", e);
+                log.error("{ }", e);
             }
         }
     }
@@ -70,6 +71,7 @@ public class ThsInfoSpider extends AbstractHtmlSpider<Stock> {
     @Override
     public WebPage crawlPage() {
         getCodeInfo();
+
         if (null == currentCodeInfo) {
             return null;
         }
@@ -89,43 +91,44 @@ public class ThsInfoSpider extends AbstractHtmlSpider<Stock> {
         String regex = ".*\\：|\\s*";
         Document doc = webPage.getDocument();
         Elements table = doc.getElementsByTag("table");
-        //第一个表格的第一行
+        // 第一个表格的第一行
         Elements tds = table.get(0).select("tr").get(0).select("td");
-        //主营业务
+        // 主营业务
 //        String zyyw = tds.get(0).text().replaceAll(regex, "");
-        //所属行业
+        // 所属行业
         String sshy = tds.get(1).text().replaceAll(regex, "");
         Elements tds1 = table.get(1).select("td");
-        //市盈率(动态)
+        // 市盈率(动态)
         String dtsyl = tds1.get(0).text().replaceAll(regex, "");
-        //股票分类
+        // 股票分类
         String stype = tds1.get(3).text().replaceAll(regex, "");
-        //市盈率(静态)
+        // 市盈率(静态)
         String sjljt = tds1.get(4).text().replaceAll(regex, "");
-        //5 营业总收入
+        // 5 营业总收入
         String yyzsr = tds1.get(5).text();
-        //市净率
+        // 市净率
         String sjl = tds1.get(8).text().replaceAll(regex, "");
-        //9 净利润
+        // 9 净利润
         String jlr = tds1.get(9).text();
-        //总市值
+        // 总市值
         String zsz = tds1.get(11).text().replaceAll("\\D+", "");
-        //每股净资产
+        // 每股净资产
         Double mgjzc = MathFormat.doubleFormat(tds1.get(12).text().replaceAll("\\[.*|", ""));
-        //毛利率
+        // 毛利率
         Double mll = MathFormat.parseMath(tds1.get(13).getElementsByClass("tip f12").text());
         String jzcsyl = "-1";
+
         if (tds1.size() > 14) {
             //净资产收益率
             jzcsyl = tds1.get(14).select("span").get(1).text();
         }
-        //提取正负小数正则
+        // 提取正负小数正则
         String rege_number = "[-+]?([0]{1}(\\.[0-9]+)?|[1-9]{1}\\d*(\\.[0-9]+)?)";
-        //关键字替换为- 负数是用中文表示所以得转换
+        // 关键字替换为- 负数是用中文表示所以得转换
         String down_flag = "同比下降";
-        //净利润
+        // 净利润
         jlr = jlr.replaceAll("\\[.*|\\s|\\：", "").replace(down_flag, "-").replace("未公布", "0,");
-        //营业总收入
+        // 营业总收入
         yyzsr = yyzsr.replaceAll("\\[.*|\\s|\\：", "").replace(down_flag, "-").replace("未公布", "0,");
         String jlr_data[] = StockSpider.findStrByRegx(jlr, rege_number).split(",");
         String yyzsr_data[] = StockSpider.findStrByRegx(yyzsr, rege_number).split(",");
@@ -134,7 +137,7 @@ public class ThsInfoSpider extends AbstractHtmlSpider<Stock> {
         String profitsDiff = jlr_data.length > 1 ? jlr_data[1] : "0";
         String totalIncome = yyzsr_data.length > 0 ? yyzsr_data[0] : "0";
         String incomeDiff = yyzsr_data.length > 1 ? yyzsr_data[1] : "0";
-        //报告期
+        // 报告期
         Elements element = doc.getElementsByAttributeValue("style", "margin-top: 4px;margin-right: 10px;color:#666");
         String report_date = null == element ? "" : element.text().trim().replace("以上为", "");
 
@@ -156,7 +159,6 @@ public class ThsInfoSpider extends AbstractHtmlSpider<Stock> {
         }catch (Exception ex){
             log.error("XueQiu info error :{}",ex);
         }*/
-
 
         UpdateResult updateResult = getMongoTemp().upsert(
                 new Query(Criteria.where("_id").is(currentCodeInfo.getCode())),

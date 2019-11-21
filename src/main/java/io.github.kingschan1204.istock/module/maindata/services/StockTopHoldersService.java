@@ -34,21 +34,24 @@ public class StockTopHoldersService {
     public void refreshTopHolders(String code){
         List<StockTopHolders> list = new ArrayList<>();
         JSONArray rows = tushareSpider.getStockTopHolders(code);
-        String frist=null;
+        String frist = null;
+
         for (int i = 0; i < rows.size(); i++) {
-            if(null==frist){
+            if (null == frist) {
                 frist=rows.getJSONArray(i).getString(1);
             }
-            if(frist.equals(rows.getJSONArray(i).getString(1))){
+
+            if (frist.equals(rows.getJSONArray(i).getString(1))) {
                 list.add(new StockTopHolders(rows.getJSONArray(i)));
-            }else{
+            } else {
                 break;
             }
         }
         String query_code=code.replaceAll("\\D+","");
-        //先删除再新增
-        DeleteResult dr= mongoTemplate.remove(new Query(Criteria.where("code").is(query_code)),StockTopHolders.class);
+
+        // 先删除再新增
+        DeleteResult dr = mongoTemplate.remove(new Query(Criteria.where("code").is(query_code)), StockTopHolders.class);
         mongoTemplate.insertAll(list);
-        log.info("top10 holders :remove {} ,insert {} ",dr.getDeletedCount(),list.size());
+        log.info("top10 holders :remove {} ,insert {} ", dr.getDeletedCount(), list.size());
     }
 }
